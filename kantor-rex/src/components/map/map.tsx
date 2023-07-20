@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { GoogleMap, Marker, useJsApiLoader } from "@react-google-maps/api";
 import styles from "./map.module.scss";
 import classNames from "classnames";
+import axios from "axios";
 
 export interface MapProps {
   className?: string;
@@ -16,8 +17,8 @@ interface MarkerData {
 const center = { lat: 54.465336805884164, lng: 17.02574142924235 };
 // const markerPosition = { lat: 54.45232, lng: 17.04403 };
 const defaultMarkers: MarkerData[] = [
-  {id: 1, lat: 54.45232, lng: 17.04403, title: "Akademik"},
-  {id: 2, lat: 54.46118, lng: 17.04829, title: "Uczelnia"},
+  {id: 1, lat: 64.45232, lng: 17.04403, title: "Akademik"},
+  {id: 2, lat: 54.46118, lng: 25.04829, title: "Uczelnia"},
 ];
 
 function  Map({ className }: MapProps) {
@@ -27,14 +28,18 @@ function  Map({ className }: MapProps) {
   })
 
   const [markers, setMarkers] = useState<MarkerData[]>(defaultMarkers);
-  // Pobierz dane z bazy danych tutaj (np. za pomocą useEffect lub innych metod do pobierania danych).
-  // Następnie ustaw dane jako nowe wartości dla `markers` za pomocą setMarkers.
 
   useEffect(() => {
-    // Zakładając, że masz funkcję do pobierania danych z bazy danych o nazwie fetchDataFromDatabase
-    // możesz to zrobić w ten sposób:
-    // fetchDataFromDatabase().then((data) => setMarkers(data));
-  }, []); // Dodaj zależności, jeśli potrzebne.
+    async function fetchData() {
+      try {
+        const response = await axios.get("/api/kantor-data"); // Wywołanie endpointu na serwerze Node.js
+        setMarkers(response.data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    }
+    fetchData();
+  }, []); 
 
   
   // Ukrycie punktów zainteresowania (POI)
