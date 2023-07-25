@@ -1,0 +1,50 @@
+@import "../../global_variables";
+
+$label_margin: 10px;
+$button_margin: 20px;
+$input_padding: 10px 15px;
+$input_border_radius: 5px;
+$input_border: 1px solid $secondary-color;
+$input_width: 70%;
+$button_background_color: $accent-color;
+$button_text_color: $secondary-color;
+$label_color: $secondary-color;
+$button_padding: 10px 20px;
+$button_border: none;
+$button_border_radius: 5px;
+$button_cursor: pointer;
+
+.form_container {
+  display: flex;
+  justify-content: center;
+  .form_field_wrapper {
+    width: 100%;
+    max-width: 1000px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    .form_label {
+      color: $label_color;
+      margin-top: $label_margin;
+    }
+    .form_input {
+      background-color: $secondary-color;
+      padding: $input_padding;
+      border-radius: $input_border_radius;
+      border: $input_border;
+      width: 100%;
+      box-sizing: border-box;
+    }
+    .form_button {
+      background-color: $button_background_color;
+      color: $button_text_color;
+      padding: $button_padding;
+      border: $button_border;
+      border-radius: $button_border_radius;
+      cursor: $button_cursor;
+      width: 100%;
+      box-sizing: border-box;
+      margin-top: $button_margin + $label_margin;
+    }
+  }
+}

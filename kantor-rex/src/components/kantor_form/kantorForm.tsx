@@ -1,6 +1,8 @@
 import React, { useState, FormEvent, ChangeEvent } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import styles from "./kantorForm.module.scss";
+import classNames from "classnames";
 
 interface MarkerData {
   lat: number;
@@ -8,7 +10,7 @@ interface MarkerData {
   title: string;
 }
 
-export const KantorForm: React.FC = () => {
+export const KantorForm = () => {
   const [formData, setFormData] = useState<MarkerData>({
     lat: 0,
     lng: 0,
@@ -54,35 +56,39 @@ export const KantorForm: React.FC = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <label>
-        Latitude:
+    <div className={classNames(styles.form_container)}>
+      <form onSubmit={handleSubmit} className={classNames(styles.form_field_wrapper)}>
+        <label className={classNames(styles.form_label)}>Latitude:</label>
         <input
           type="number"
           name="lat"
           value={formData.lat}
           onChange={handleChange}
+          className={classNames(styles.form_input)}
         />
-      </label>
-      <label>
-        Longitude:
+
+        <label className={classNames(styles.form_label)}>Longitude:</label>
         <input
           type="number"
           name="lng"
           value={formData.lng}
           onChange={handleChange}
+          className={classNames(styles.form_input)}
         />
-      </label>
-      <label>
-        Title:
+
+        <label className={classNames(styles.form_label)}>Title:</label>
         <input
           type="text"
           name="title"
           value={formData.title}
           onChange={handleChange}
+          className={classNames(styles.form_input)}
         />
-      </label>
-      <button type="submit">Dodaj marker</button>
-    </form>
+
+        <button type="submit" className={classNames(styles.form_button)}>
+          Dodaj marker
+        </button>
+      </form>
+    </div>
   );
 };

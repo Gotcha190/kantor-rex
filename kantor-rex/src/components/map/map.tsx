@@ -15,7 +15,6 @@ interface MarkerData {
 }
 
 const center = { lat: 54.465336805884164, lng: 17.02574142924235 };
-// const markerPosition = { lat: 54.45232, lng: 17.04403 };
 const defaultMarkers: MarkerData[] = [
   {id: 1, lat: 64.45232, lng: 17.04403, title: "Akademik"},
   {id: 2, lat: 54.46118, lng: 25.04829, title: "Uczelnia"},
