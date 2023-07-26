@@ -42,13 +42,38 @@ app.post('/geocode', async (req, res) => {
   const { street, city } = req.body;
   const country = 'Polska';
   const address = `${street}, ${city}, ${country}`;
+
   try {
     const apiKey = process.env.GOOGLE_MAPS_API_KEY;
+    const region = 'PL'; // Kod kraju, w którym ma odbywać się geokodowanie (w tym przypadku Polska)
     const apiUrl = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(
-      address 
-    )}&key=${apiKey}`;
+      address
+    )}&key=${apiKey}&region=${region}`;
+
     const response = await axios.get(apiUrl);
-    const { lat, lng } = response.data.results[0].geometry.location;
+    const results = response.data.results;
+    // console.log(response);
+    // console.log(results);
+    // Sprawdzenie, czy otrzymano jakiekolwiek wyniki geokodowania
+    if (results.length === 0) {
+      return res.status(404).json({ error: 'Nie znaleziono adresu.' });
+    }
+
+    // Sprawdzenie, czy pierwszy wynik jest na poziomie ulicy (ROOFTOP)
+    const firstResult = results[0];
+    const types = firstResult.types;
+    if (!types.includes('street_address') && !types.includes('premise')) {
+      return res.status(400).json({ error: 'Nieprawidłowy adres - brak wyników na poziomie ulicy.' });
+    }
+
+    // Sprawdzenie, czy adres zawiera komponenty związane z podanym miastem
+    const addressComponents = firstResult.address_components;
+    const cityComponent = addressComponents.find(component => component.types.includes('locality'));
+    if (!cityComponent || cityComponent.long_name.toLowerCase() !== city.toLowerCase()) {
+      return res.status(400).json({ error: 'Nie znaleziono podanego miasta.' });
+    }
+
+    const { lat, lng } = firstResult.geometry.location;
     res.json({ lat, lng });
   } catch (error) {
     console.error('Wystąpił błąd podczas geokodowania:', error.message);
@@ -56,20 +81,6 @@ app.post('/geocode', async (req, res) => {
   }
 });
 
-// app.post("/api/add-new-currency-exchange", (req, res) => {
-//   const { lat, lng, title } = req.body;
-
-//   // Przykład zapisu do bazy danych
-//   const query = "INSERT INTO kantory (lat, lng, title) VALUES (?, ?, ?)";
-//   connection.query(query, [lat, lng, title], (err, result) => {
-//     if (err) {
-//       console.error("Error adding new marker:", err);
-//       res.status(500).send("Wystąpił błąd serwera.");
-//     } else {
-//       res.sendStatus(200);
-//     }
-//   });
-// });
 app.post('/api/add-new-currency-exchange', (req, res) => {
   const { lat, lng, street ,city, country, title } = req.body;
 

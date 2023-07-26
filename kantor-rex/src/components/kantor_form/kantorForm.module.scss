@@ -17,6 +17,7 @@ $button_cursor: pointer;
 .form_container {
   display: flex;
   justify-content: center;
+  flex-direction: column;
   .form_field_wrapper {
     width: 100%;
     max-width: 1000px;
