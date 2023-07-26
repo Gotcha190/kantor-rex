@@ -38,41 +38,54 @@ app.get("/api/kantor-data", (req, res) => {
   });
 });
 
-app.get('/map-api', async (req, res) => {
-  // const { latitude, longitude } = { 54.465336805884164: 17.02574142924235 };
-  const apiKey = process.env.GOOGLE_MAPS_API_KEY;
+app.post('/geocode', async (req, res) => {
+  const { street, city } = req.body;
+  const country = 'Polska';
+  const address = `${street}, ${city}, ${country}`;
   try {
-    // Wywołanie zapytania do Google Maps API
-
-    // const response = await axios.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=${apiKey}`);
-    const response = await axios.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=54.465336805884164,17.02574142924235&key=${apiKey}`);
-    
-    // Przetwarzanie odpowiedzi
-    const data = response.data;
-    // Tutaj możesz manipulować danymi zwróconymi przez API i przekazywać je do klienta
-
-    res.send(data);
+    const apiKey = process.env.GOOGLE_MAPS_API_KEY;
+    const apiUrl = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(
+      address 
+    )}&key=${apiKey}`;
+    const response = await axios.get(apiUrl);
+    const { lat, lng } = response.data.results[0].geometry.location;
+    res.json({ lat, lng });
   } catch (error) {
-    console.error(error);
-    res.status(500).send('Wystąpił błąd serwera.');
+    console.error('Wystąpił błąd podczas geokodowania:', error.message);
+    res.status(500).json({ error: 'Wystąpił błąd podczas geokodowania' });
   }
 });
 
-app.post("/api/add-new-currency-exchange", (req, res) => {
-  const { lat, lng, title } = req.body;
+// app.post("/api/add-new-currency-exchange", (req, res) => {
+//   const { lat, lng, title } = req.body;
 
-  // Przykład zapisu do bazy danych
-  const query = "INSERT INTO kantory (lat, lng, title) VALUES (?, ?, ?)";
-  connection.query(query, [lat, lng, title], (err, result) => {
+//   // Przykład zapisu do bazy danych
+//   const query = "INSERT INTO kantory (lat, lng, title) VALUES (?, ?, ?)";
+//   connection.query(query, [lat, lng, title], (err, result) => {
+//     if (err) {
+//       console.error("Error adding new marker:", err);
+//       res.status(500).send("Wystąpił błąd serwera.");
+//     } else {
+//       res.sendStatus(200);
+//     }
+//   });
+// });
+app.post('/api/add-new-currency-exchange', (req, res) => {
+  const { lat, lng, street ,city, country, title } = req.body;
+
+  const sqlQuery = 'INSERT INTO kantory (lat, lng, street, city, country, title) VALUES (?, ?, ?, ?, ?, ?)';
+  const values = [lat, lng, street, city, country, title];
+
+  connection.query(sqlQuery, values, (err, result) => {
     if (err) {
-      console.error("Error adding new marker:", err);
-      res.status(500).send("Wystąpił błąd serwera.");
-    } else {
-      res.sendStatus(200);
+      console.error('Błąd podczas zapisywania markera:', err);
+      return res.status(500).json({ error: 'Błąd podczas zapisywania markera' });
     }
+
+    console.log('Zapisano nowy marker:', result.insertId);
+    return res.status(201).json({ message: 'Zapisano nowy marker', markerId: result.insertId });
   });
 });
-
 app.listen(PORT, () => {
   console.log(`Server listening on ${PORT}`);
 });
