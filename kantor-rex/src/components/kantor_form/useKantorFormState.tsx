@@ -12,6 +12,14 @@ const useKantorFormState = () => {
     country: "",
     city: "",
     street: "",
+    usd_buy: 0,
+    usd_sell: 0,
+    eur_buy: 0,
+    eur_sell: 0,
+    chf_buy: 0,
+    chf_sell: 0,
+    gbp_buy: 0,
+    gbp_sell: 0,
   });
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {

@@ -26,6 +26,14 @@ const useKantorFormSubmission = () => {
       city: form.city.value,
       street: form.street.value,
       name: form.name.value,
+      usd_buy: form.usd_buy.value,
+      usd_sell: form.usd_sell.value,
+      eur_buy: form.eur_buy.value,
+      eur_sell: form.eur_sell.value,
+      chf_buy: form.chf_buy.value,
+      chf_sell: form.chf_sell.value,
+      gbp_buy: form.gbp_buy.value,
+      gbp_sell: form.gbp_sell.value,
     };
 
     try {
