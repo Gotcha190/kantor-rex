@@ -1,10 +1,10 @@
 export interface MarkerData {
     lat: number;
     lng: number;
-    name: string;
     country: string;
     city: string;
     street: string;
+    name: string;
   }
 
   export interface ServerError {

@@ -82,10 +82,10 @@ app.post('/geocode', async (req, res) => {
 });
 
 app.post('/api/add-new-currency-exchange', (req, res) => {
-  const { lat, lng, street ,city, country, title } = req.body;
+  const { lat, lng, street ,city, country, name } = req.body;
 
   const sqlQuery = 'INSERT INTO kantory (lat, lng, street, city, country, title) VALUES (?, ?, ?, ?, ?, ?)';
-  const values = [lat, lng, street, city, country, title];
+  const values = [lat, lng, street, city, country, name];
 
   connection.query(sqlQuery, values, (err, result) => {
     if (err) {

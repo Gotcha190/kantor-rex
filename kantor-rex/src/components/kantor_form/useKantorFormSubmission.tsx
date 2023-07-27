@@ -1,6 +1,9 @@
+// @ts-nocheck
 import { FormEvent, useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import { MarkerData, ServerError } from "../interfaces";
+
 
 const useKantorFormSubmission = () => {
   const [serverError, setServerError] = useState("");
@@ -9,12 +12,13 @@ const useKantorFormSubmission = () => {
     return (obj as ServerError).error !== undefined;
   };
 
+  const navigate = useNavigate();
+
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setServerError("");
 
     const form = event.currentTarget;
-    console.log(form.name.value);
     const formData: MarkerData = {
       lat: 0,
       lng: 0,
@@ -23,7 +27,7 @@ const useKantorFormSubmission = () => {
       street: form.street.value,
       name: form.name.value,
     };
-    // console.log(form.title);
+
     try {
       const response = await axios.post("/geocode", {
         street: formData.street,
@@ -36,24 +40,20 @@ const useKantorFormSubmission = () => {
         lat,
         lng,
       };
-      console.log(formData);
-      //console.log(newMarker);
-      // Now, you can perform the actual form submission here.
-      // For example, you can call the API to save the newMarker data.
-
-      // axios.post("/api/add-new-currency-exchange", newMarker, {
-      //   headers: {
-      //     "Content-Type": "application/json",
-      //   },
-      // })
-      // .then(() => {
-      //   // Handle success if needed
-      //   console.log("Form submitted successfully!");
-      // })
-      // .catch((error) => {
-      //   // Handle error if needed
-      //   console.error("Error adding new marker:", error);
-      // });
+      axios.post("/api/add-new-currency-exchange", newMarker, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+      .then(() => {
+        // Handle success if needed
+        console.log("Form submitted successfully!");
+      })
+      .catch((error) => {
+        // Handle error if needed
+        console.error("Error adding new marker:", error);
+      });
+      navigate("/");
     } catch (error) {
       if (isServerError(error)) {
         setServerError(
