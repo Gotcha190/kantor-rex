@@ -10,7 +10,7 @@ export const KantorForm = () => {
   const formFields = [
     { name: "street", label: "Ulica:" },
     { name: "city", label: "Miasto:" },
-    { name: "name", label: "Nazwa:" },
+    { name: "company_name", label: "Nazwa:" },
   ];
   const currencies = [
     { code: "USD" },

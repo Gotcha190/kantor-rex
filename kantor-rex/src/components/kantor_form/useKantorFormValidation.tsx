@@ -10,7 +10,7 @@ const useKantorFormValidation = (formData: MarkerData) => {
   if (formData.city.trim() === "") {
     formError = "Pole wymagane - podaj miasto.";
   }
-  if (formData.name.trim() === "") {
+  if (formData.company_name.trim() === "") {
     formError = "Pole wymagane - podaj tytuł.";
   }
   return formError;

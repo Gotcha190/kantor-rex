@@ -8,7 +8,7 @@ const useKantorFormState = () => {
   const [formData, setFormData] = useState<MarkerData>({
     lat: 0,
     lng: 0,
-    name: "",
+    company_name: "",
     country: "",
     city: "",
     street: "",

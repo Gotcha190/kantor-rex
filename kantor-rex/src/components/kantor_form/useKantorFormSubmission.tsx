@@ -3,11 +3,6 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { MarkerData, ServerError } from "../interfaces";
 
-interface GeocodeResponse {
-  lat: number;
-  lng: number;
-}
-
 const useKantorFormSubmission = () => {
   const [serverError, setServerError] = useState("");
 
@@ -26,21 +21,21 @@ const useKantorFormSubmission = () => {
       lat: 0,
       lng: 0,
       country: "Polska",
-      city: (form.querySelector("[name='city']") as HTMLInputElement).value,
-      street: (form.querySelector("[name='street']") as HTMLInputElement).value,
-      name: (form.querySelector("[name='name']") as HTMLInputElement).value,
-      usd_buy: parseFloat((form.querySelector("[name='usd_buy']") as HTMLInputElement).value),
-      usd_sell: parseFloat((form.querySelector("[name='usd_sell']") as HTMLInputElement).value),
-      eur_buy: parseFloat((form.querySelector("[name='eur_buy']") as HTMLInputElement).value),
-      eur_sell: parseFloat((form.querySelector("[name='eur_sell']") as HTMLInputElement).value),
-      chf_buy: parseFloat((form.querySelector("[name='chf_buy']") as HTMLInputElement).value),
-      chf_sell: parseFloat((form.querySelector("[name='chf_sell']") as HTMLInputElement).value),
-      gbp_buy: parseFloat((form.querySelector("[name='gbp_buy']") as HTMLInputElement).value),
-      gbp_sell: parseFloat((form.querySelector("[name='gbp_sell']") as HTMLInputElement).value),
+      city: form.city.value,
+      street: form.street.value,
+      company_name: form.company_name.value,
+      usd_buy: form.usd_buy.value,
+      usd_sell: form.usd_sell.value,
+      eur_buy: form.eur_buy.value,
+      eur_sell: form.eur_sell.value,
+      chf_buy: form.chf_buy.value,
+      chf_sell: form.chf_sell.value,
+      gbp_buy: form.gbp_buy.value,
+      gbp_sell: form.gbp_sell.value,
     };
 
     try {
-      const response = await axios.post<GeocodeResponse>("/geocode", {
+      const response = await axios.post("/geocode", {
         street: formData.street,
         city: formData.city,
       });

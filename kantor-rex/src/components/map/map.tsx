@@ -44,7 +44,7 @@ function  Map() {
       new window.google.maps.Marker({
         position: { lat: marker.lat, lng: marker.lng },
         map: map,
-        title: marker.name,
+        title: marker.company_name,
       });
     });
   };

@@ -4,7 +4,7 @@ export interface MarkerData {
   country: string;
   city: string;
   street: string;
-  name: string;
+  company_name: string;
   [key: string]: string | number;
   usd_buy: number;
   usd_sell: number;
@@ -14,6 +14,11 @@ export interface MarkerData {
   chf_sell: number;
   gbp_buy: number;
   gbp_sell: number;
+}
+
+export interface GeocodeResponse {
+  lat: number;
+  lng: number;
 }
 
 export interface ServerError {
