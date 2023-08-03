@@ -7,122 +7,61 @@ export const KantorForm = () => {
   const { formError, serverError, formData, handleSubmit, handleChange } =
     useKantorForm();
 
+  const formFields = [
+    { name: "street", label: "Ulica:" },
+    { name: "city", label: "Miasto:" },
+    { name: "name", label: "Nazwa:" },
+  ];
+  const currencies = [
+    { code: "USD" },
+    { code: "EUR" },
+    { code: "CHF" },
+    { code: "GBP" },
+  ];
+
   return (
-    <div className={classNames(styles.form_container)}>
-      <form
-        onSubmit={handleSubmit}
-        className={classNames(styles.form_field_wrapper)}
-      >
-        <InputLabel
-          label="Ulica:"
-          type="text"
-          name="street"
-          value={formData.street}
-          onChange={handleChange}
-          className={styles.form_input}
-        />
-
-        <InputLabel
-          label="Miasto:"
-          type="text"
-          name="city"
-          value={formData.city}
-          onChange={handleChange}
-          className={styles.form_input}
-        />
-
-        <InputLabel
-          label="Nazwa:"
-          type="text"
-          name="name"
-          value={formData.name}
-          onChange={handleChange}
-          className={styles.form_input}
-        />
+    <div className={styles.form_container}>
+      <form onSubmit={handleSubmit} className={styles.form_field_wrapper}>
+        {formFields.map((field) => (
+          <InputLabel
+            key={field.name}
+            label={field.label}
+            type="text"
+            name={field.name}
+            value={formData[field.name]}
+            onChange={handleChange}
+            className={styles.form_input}
+          />
+        ))}
 
         <div className={styles.form_prices}>
           <label className={classNames(styles.divider)}>Kursy wymiany:</label>
 
           <div className={styles.currencyContainer}>
-            <div className={styles.currency}>
-              <label className={classNames(styles.currency_label)}>USD</label>
-              <InputLabel
-                label="Kupno"
-                type="number"
-                name="usd_buy"
-                value={formData.usd_buy}
-                onChange={handleChange}
-                className={styles.form_input}
-              />
-              <InputLabel
-                label="Sprzedaż"
-                type="number"
-                name="usd_sell"
-                value={formData.usd_sell}
-                onChange={handleChange}
-                className={styles.form_input}
-              />
-            </div>
+            {currencies.map((currency) => (
+              <div key={currency.code} className={styles.currency}>
+                <label className={classNames(styles.currency_label)}>
+                  {currency.code}
+                </label>
+                <InputLabel
+                  label="Kupno"
+                  type="number"
+                  name={`${currency.code.toLowerCase()}_buy` as string}
+                  value={formData[`${currency.code.toLowerCase()}_buy`]}
+                  onChange={handleChange}
+                  className={styles.form_input}
+                />
 
-            <div className={styles.currency}>
-              <label className={classNames(styles.currency_label)}>EUR</label>
-              <InputLabel
-                label="Kupno"
-                type="number"
-                name="eur_buy"
-                value={formData.eur_buy}
-                onChange={handleChange}
-                className={styles.form_input}
-              />
-              <InputLabel
-                label="Sprzedaż"
-                type="number"
-                name="eur_sell"
-                value={formData.eur_sell}
-                onChange={handleChange}
-                className={styles.form_input}
-              />
-            </div>
-
-            <div className={styles.currency}>
-              <label className={classNames(styles.currency_label)}>CHF</label>
-              <InputLabel
-                label="Kupno"
-                type="number"
-                name="chf_buy"
-                value={formData.chf_buy}
-                onChange={handleChange}
-                className={styles.form_input}
-              />
-              <InputLabel
-                label="Sprzedaż"
-                type="number"
-                name="chf_sell"
-                value={formData.chf_sell}
-                onChange={handleChange}
-                className={styles.form_input}
-              />
-            </div>
-
-            <div className={styles.currency}>
-              <label className={classNames(styles.currency_label)}>GBP</label>
-              <InputLabel
-                label="Kupno"
-                type="number"
-                name="gbp_buy"
-                value={formData.gbp_buy}
-                onChange={handleChange}
-                className={styles.form_input}
-              />
-              <InputLabel
-                label="Sprzedaż"
-                type="number"
-                name="gbp_sell"
-                value={formData.gbp_sell}
-                onChange={handleChange}
-                className={styles.form_input}
-              />
-            </div>
+                <InputLabel
+                  label="Sprzedaż"
+                  type="number"
+                  name={`${currency.code.toLowerCase()}_sell` as string}
+                  value={formData[`${currency.code.toLowerCase()}_sell`]}
+                  onChange={handleChange}
+                  className={styles.form_input}
+                />
+              </div>
+            ))}
           </div>
         </div>
         <div className={styles.form_component}>
@@ -131,6 +70,7 @@ export const KantorForm = () => {
           </button>
         </div>
       </form>
+
       {formError && (
         <p className={styles.error_message}>FormError: {formError}</p>
       )}
