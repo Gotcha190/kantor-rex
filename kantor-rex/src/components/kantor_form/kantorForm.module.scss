@@ -6,6 +6,8 @@ $input_padding: 10px 15px;
 $input_border_radius: 5px;
 $input_border: 1px solid $secondary-color;
 $input_width: 70%;
+$max-width: 1000px;
+$min-width: 700px;
 $button_background_color: $accent-color;
 $button_text_color: $secondary-color;
 $label_color: $secondary-color;
@@ -19,8 +21,8 @@ $button_cursor: pointer;
   justify-content: center;
   flex-direction: column;
   margin: 0 auto;
-  max-width: 1000px;
-  min-width: 700px;
+  max-width: $max-width;
+  min-width: $min-width;
   .form_field_wrapper {
     width: 100%;
     display: flex;
@@ -42,6 +44,13 @@ $button_cursor: pointer;
         border: $input_border;
         width: 100%;
         box-sizing: border-box;
+        &.error {
+          border: solid 3px red;
+        }
+      }
+      .error_message {
+        color: red;
+        margin: 0;
       }
       .form_button {
         background-color: $button_background_color;
@@ -55,7 +64,7 @@ $button_cursor: pointer;
         margin-top: $button_margin + $label_margin;
       }
     }
-    .form_prices{
+    .form_prices {
       width: 100%;
       display: flex;
       flex-direction: column;
@@ -74,26 +83,19 @@ $button_cursor: pointer;
   flex-wrap: wrap;
   gap: 20px; /* Add the desired gap between columns */
   justify-content: center; /* Center the columns horizontally */
-}
-
-.currency {
-  width: 40%; /* This will create the two-column layout */
-  display: flex;
-  flex-direction: column;
-  gap: 10px; /* Add the desired gap between the elements */
-  align-items: center; /* Center the elements inside the column */
-}
-
-.currency_label {
-  color: $secondary-color;
-  margin-top: $label_margin;
-  display: flex;
-  justify-content: center; /* Center the label text horizontally */
-}
-
-.form_input {
-  margin-top: 5px;
-  padding: 5px;
-  border: 1px solid #ccc;
-  text-align: center; /* Center the input text */
+  .currency {
+    width: 40%; /* This will create the two-column layout */
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center the elements inside the column */
+    .currency_label {
+      color: $secondary-color;
+      margin-top: $label_margin;
+      display: flex;
+      justify-content: center; /* Center the label text horizontally */
+    }
+    .form_input {
+      text-align: center; /* Center the input text */
+    }
+  }
 }

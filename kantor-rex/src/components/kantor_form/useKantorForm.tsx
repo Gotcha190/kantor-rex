@@ -3,16 +3,17 @@ import useKantorFormValidation from "./useKantorFormValidation";
 import useKantorFormSubmission from "./useKantorFormSubmission";
 
 const useKantorForm = () => {
-  const { formData, handleChange } = useKantorFormState();
-  const formError = useKantorFormValidation(formData);
+  const { formData, handleChange, touchedFields } = useKantorFormState();
+  const formErrors = useKantorFormValidation(formData);
   const { serverError, handleSubmit } = useKantorFormSubmission();
 
   return {
-    formError,
+    formErrors,
     serverError,
     formData,
     handleSubmit,
     handleChange,
+    touchedFields,
   };
 };
 

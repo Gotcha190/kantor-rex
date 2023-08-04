@@ -1,11 +1,12 @@
 import { useState } from "react";
 import { MarkerData } from "../interfaces";
 
+type TouchedFields = {
+  [key: string]: boolean;
+};
+
 const useKantorFormState = () => {
-  const [street, setStreet] = useState("");
-  const [city, setCity] = useState("");
-  const [name, setName] = useState("");
-  const [formData, setFormData] = useState<MarkerData>({
+  const initialFormData: MarkerData = {
     lat: 0,
     lng: 0,
     company_name: "",
@@ -20,6 +21,13 @@ const useKantorFormState = () => {
     chf_sell: 0,
     gbp_buy: 0,
     gbp_sell: 0,
+  };
+
+  const [formData, setFormData] = useState<MarkerData>(initialFormData);
+  const [touchedFields, setTouchedFields] = useState<TouchedFields>({
+    street: false,
+    city: false,
+    company_name: false,
   });
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -28,8 +36,10 @@ const useKantorFormState = () => {
       ...prevData,
       [name]: value,
     }));
+    setTouchedFields((prevTouchedFields) => ({ ...prevTouchedFields, [name]: true }));
   };
-  return { street, setStreet, name, setName, city, setCity, formData, setFormData, handleChange };
+
+  return { formData, handleChange, touchedFields };
 };
 
 export default useKantorFormState;

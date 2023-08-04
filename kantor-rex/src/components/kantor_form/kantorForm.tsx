@@ -4,8 +4,14 @@ import useKantorForm from "./useKantorForm";
 import InputLabel from "./inputLabel";
 
 export const KantorForm = () => {
-  const { formError, serverError, formData, handleSubmit, handleChange } =
-    useKantorForm();
+  const {
+    formErrors,
+    serverError,
+    formData,
+    handleSubmit,
+    handleChange,
+    touchedFields,
+  } = useKantorForm();
 
   const formFields = [
     { name: "street", label: "Ulica:" },
@@ -21,6 +27,9 @@ export const KantorForm = () => {
 
   return (
     <div className={styles.form_container}>
+      {serverError && (
+        <p className={styles.error_message}>ServerError: {serverError}</p>
+      )}
       <form onSubmit={handleSubmit} className={styles.form_field_wrapper}>
         {formFields.map((field) => (
           <InputLabel
@@ -31,6 +40,8 @@ export const KantorForm = () => {
             value={formData[field.name]}
             onChange={handleChange}
             className={styles.form_input}
+            touched={touchedFields[field.name]}
+            error={formErrors[field.name]}
           />
         ))}
 
@@ -70,13 +81,6 @@ export const KantorForm = () => {
           </button>
         </div>
       </form>
-
-      {formError && (
-        <p className={styles.error_message}>FormError: {formError}</p>
-      )}
-      {serverError && (
-        <p className={styles.error_message}>ServerError: {serverError}</p>
-      )}
     </div>
   );
 };

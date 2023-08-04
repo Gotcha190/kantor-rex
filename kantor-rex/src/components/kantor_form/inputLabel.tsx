@@ -10,6 +10,8 @@ const InputLabel: React.FC<InputLabelProps> = ({
   value,
   onChange,
   className,
+  touched,
+  error,
 }) => {
   const isNumberType = type === "number";
 
@@ -62,7 +64,7 @@ const InputLabel: React.FC<InputLabelProps> = ({
 
   return (
     <div className={styles.form_component}>
-      <label className={classNames(styles.form_label)}>{label}</label>
+      <label className={styles.form_label}>{label}</label>
       <input
         type={type}
         name={name}
@@ -76,8 +78,10 @@ const InputLabel: React.FC<InputLabelProps> = ({
         onChange={handleInputChange}
         onBlur={handleInputBlur}
         min={isNumberType ? "0" : undefined}
-        className={className}
+        className={classNames(className, {
+          [styles.error]: touched && type !== "number" && error})}
       />
+      {touched && error && <p className={styles.error_message}>{error}</p>}
     </div>
   );
 };
