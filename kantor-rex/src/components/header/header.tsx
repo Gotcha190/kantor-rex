@@ -33,11 +33,11 @@ export const Header = () => {
           </li>
           <li className={styles.li}>
             <Link to="/add-new-currency-exchange">
-              Add New Currency Exchange
+              Dodaj nowy kantor
             </Link>
           </li>
           <li className={styles.li}>
-            <Link to="/">Map</Link>
+            <Link to="/show-all">Wszyskie kantory</Link>
           </li>
         </ul>
       </nav>

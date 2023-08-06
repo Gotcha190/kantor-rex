@@ -1,7 +1,7 @@
 import { FormEvent, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { MarkerData, ServerError } from "../interfaces";
+import { KantorData, ServerError } from "@shared/interfaces";
 
 const useKantorFormSubmission = () => {
   const [serverError, setServerError] = useState("");
@@ -17,7 +17,7 @@ const useKantorFormSubmission = () => {
     setServerError("");
 
     const form = event.currentTarget;
-    const formData: MarkerData = {
+    const formData: KantorData = {
       lat: 0,
       lng: 0,
       country: "Polska",
@@ -42,7 +42,7 @@ const useKantorFormSubmission = () => {
 
       const { lat, lng } = response.data;
 
-      const newMarker: MarkerData = {
+      const newMarker: KantorData = {
         ...formData,
         lat,
         lng,

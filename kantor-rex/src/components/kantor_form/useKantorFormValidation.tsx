@@ -1,6 +1,6 @@
-import { MarkerData, FormErrors } from "../interfaces";
+import { KantorData, FormErrors } from "@shared/interfaces";
 
-const useKantorFormValidation = (formData: MarkerData): FormErrors => {
+const useKantorFormValidation = (formData: KantorData): FormErrors => {
   const formErrors: FormErrors = {
     street: null,
     city: null,

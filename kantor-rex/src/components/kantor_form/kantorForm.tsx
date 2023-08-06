@@ -30,7 +30,7 @@ export const KantorForm = () => {
       {serverError && (
         <p className={styles.error_message}>ServerError: {serverError}</p>
       )}
-      <form onSubmit={handleSubmit} className={styles.form_field_wrapper}>
+      <form onSubmit={handleSubmit} className={styles.form_field_wrapper} noValidate>
         {formFields.map((field) => (
           <InputLabel
             key={field.name}

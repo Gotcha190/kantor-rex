@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styles from "./kantorForm.module.scss";
 import classNames from "classnames";
-import { InputLabelProps } from "../interfaces";
+import { InputLabelProps } from "@shared/interfaces";
 
 const InputLabel: React.FC<InputLabelProps> = ({
   label,
@@ -62,6 +62,11 @@ const InputLabel: React.FC<InputLabelProps> = ({
     }
   };
 
+  const handleInvalid = (event: React.FormEvent<HTMLInputElement>) => {
+    // Prevent the default validation message for the number input
+    event.preventDefault();
+  };
+
   return (
     <div className={styles.form_component}>
       <label className={styles.form_label}>{label}</label>
@@ -79,7 +84,9 @@ const InputLabel: React.FC<InputLabelProps> = ({
         onBlur={handleInputBlur}
         min={isNumberType ? "0" : undefined}
         className={classNames(className, {
-          [styles.error]: touched && type !== "number" && error})}
+          [styles.error]: touched && !isNumberType && error,
+        })}
+        onInvalid={isNumberType ? handleInvalid : undefined}
       />
       {touched && error && <p className={styles.error_message}>{error}</p>}
     </div>

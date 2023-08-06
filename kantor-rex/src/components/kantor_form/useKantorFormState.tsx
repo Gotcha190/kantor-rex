@@ -1,12 +1,12 @@
 import { useState } from "react";
-import { MarkerData } from "../interfaces";
+import { KantorData } from "@shared/interfaces";
 
 type TouchedFields = {
   [key: string]: boolean;
 };
 
 const useKantorFormState = () => {
-  const initialFormData: MarkerData = {
+  const initialFormData: KantorData = {
     lat: 0,
     lng: 0,
     company_name: "",
@@ -23,7 +23,7 @@ const useKantorFormState = () => {
     gbp_sell: 0,
   };
 
-  const [formData, setFormData] = useState<MarkerData>(initialFormData);
+  const [formData, setFormData] = useState<KantorData>(initialFormData);
   const [touchedFields, setTouchedFields] = useState<TouchedFields>({
     street: false,
     city: false,

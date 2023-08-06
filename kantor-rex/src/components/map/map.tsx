@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { GoogleMap, Marker, useJsApiLoader } from "@react-google-maps/api";
 import styles from "./map.module.scss";
 import axios from "axios";
-import { MarkerData } from "../interfaces";
+import { KantorData } from "@shared/interfaces";
 
 const center = { lat: 54.465336805884164, lng: 17.02574142924235 };
 
@@ -12,7 +12,7 @@ function  Map() {
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY!,
   })
 
-  const [markers, setMarkers] = useState<MarkerData[]>([]);
+  const [markers, setMarkers] = useState<KantorData[]>([]);
 
   useEffect(() => {
     async function fetchData() {
