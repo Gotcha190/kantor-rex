@@ -4,6 +4,7 @@ import { Request, Response } from "express";
 import axios from "axios";
 import express from "express";
 import bodyParser from "body-parser";
+import connection from "./db";
 import { KantorData } from "@shared/interfaces";
 
 const PORT = process.env.PORT || 3002;
@@ -12,21 +13,6 @@ app.use(bodyParser.json());
 dotnev.config();
 
 app.use(express.json());
-
-const connection = mysql.createConnection({
-  host: process.env.DB_HOST,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASS,
-  database: process.env.DB_NAME,
-});
-
-connection.connect((err: mysql.MysqlError | null) => {
-  if (err) {
-    console.error("Error connecting to the database:", err);
-    return;
-  }
-  console.log("Connected to the database!");
-});
 
 app.get("/api", (req: Request, res: Response) => {
   res.json({ message: "Hello from server!" });
@@ -93,18 +79,22 @@ app.post("/api/add-new-currency-exchange", (req: Request, res: Response) => {
   const requestData: KantorData = req.body;
 
   const kantorDataFields = Object.keys(requestData).filter(
-    (field) => field in requestData
+    (field) => field in requestData && requestData[field] !== ''
   );
-
-  const values = kantorDataFields.map((field) => requestData[field]);
-
-  const fieldNames = kantorDataFields.join(", ");
+  
+  const values = kantorDataFields.map((field) => {
+    if (requestData[field] === '' || requestData[field] === "") {
+      return null; 
+    }
+    return requestData[field];
+  });
+  
   const placeholders = Array.from(
     { length: kantorDataFields.length },
-    () => "?"
-  ).join(", ");
-
-  const sqlQuery = `INSERT INTO kantory (${fieldNames}) VALUES (${placeholders})`;
+    () => '?'
+  ).join(', ');
+  
+  const sqlQuery = `INSERT INTO kantory (${kantorDataFields.join(', ')}) VALUES (${placeholders})`;
 
   connection.query(sqlQuery, values, (err, result) => {
     if (err) {
