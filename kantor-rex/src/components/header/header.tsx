@@ -37,7 +37,7 @@ export const Header = () => {
             </Link>
           </li>
           <li className={styles.li}>
-            <Link to="/show-all">Wszyskie kantory</Link>
+            <Link to="/show/all">Wszyskie kantory</Link>
           </li>
         </ul>
       </nav>

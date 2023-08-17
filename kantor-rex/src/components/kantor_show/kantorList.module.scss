@@ -1,0 +1,56 @@
+@import "../../global_variables";
+
+.container {
+  width: 100%;
+
+  .kantorTable {
+    margin: 0 auto;
+    width: 70%;
+    max-width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+
+    .labels {
+      background-color: $secondary-color;
+    }
+
+    .currencyWrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      .currencyName {
+        margin-bottom: 5px;
+      }
+
+      .currencyButtons {
+        display: flex;
+        gap: 5px;
+      }
+    }
+
+    button {
+      border: none;
+      background: none;
+      font-size: 12px;
+      cursor: pointer;
+    }
+
+    tbody {
+      font-size: 14px;
+    }
+
+    .clickableRow {
+      cursor: pointer;
+      background-color: $secondary-color;
+      line-height: 4;
+      text-align: center;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 2);
+      transition: background-color 0.3s, box-shadow 0.3s;
+
+      &:hover {
+        background-color: $accent-color;
+      }
+    }
+  }
+}

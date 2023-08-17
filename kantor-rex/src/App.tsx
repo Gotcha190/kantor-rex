@@ -4,7 +4,8 @@ import styles from "./App.module.scss";
 import { Header } from "./components/header/header";
 import Map from "./components/map/map";
 import { KantorForm } from "./components/kantor_form/kantorForm";
-import { KantorShow } from "./components/kantor_show/kantorShow";
+import { KantorList } from "./components/kantor_show/kantorList";
+import { KantorShowSelected } from "./components/kantor_show/kantorShowSelected";
 
 export default function App() {
   return (
@@ -14,7 +15,8 @@ export default function App() {
         <Routes>
           <Route path="/" element={<AppContent />} />
           <Route path="/add-new-currency-exchange" element={<KantorForm />} />
-          <Route path='/show-all' element={<KantorShow />} />
+          <Route path='/show/all' element={<KantorList />} />
+          <Route path="/show/:nameid" element={<KantorShowSelected />} />
         </Routes>
       </Router>
     </div>
