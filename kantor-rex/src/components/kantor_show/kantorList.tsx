@@ -47,31 +47,24 @@ export const KantorList = () => {
     setKantors(sortedKantors);
   };
 
-  const getCurrencyFields = (kantors: KantorData[]) => {
-    const currencyData: string[] = [];
-
-    kantors.forEach((kantor) => {
-      Object.keys(kantor).forEach((key) => {
-        if (key.endsWith("_buy")) {
-          const currency = key.replace("_buy", "");
-          if (!currencyData.includes(currency)) {
-            currencyData.push(currency);
-          }
-        }
-      });
-    });
-
-    return currencyData;
-  };
-
-  const goRouteId = (kantor: KantorData) => {
-    const nameId = kantor.company_name + "-" + kantor.id;
-    navigate(`/show/${nameId}`, { state: {kantor}});
-  };
-
   if (kantors.length === 0) {
     return <div>Loading...</div>;
   }
+
+  const currencyFields: string[] = [];
+  Object.keys(kantors[0]).forEach((key) => {
+    if (key.endsWith("_buy")) {
+      const currency = key.replace("_buy", "");
+      if (!currencyFields.includes(currency)) {
+        currencyFields.push(currency);
+      }
+    }
+  });
+
+  const goRouteId = (kantor: KantorData) => {
+    const nameId = kantor.company_name + "-" + kantor.id;
+    navigate(`/show/${nameId}`, { state: { kantor , currencyFields} });
+  };
 
   return (
     <div className={styles.container}>
@@ -81,7 +74,7 @@ export const KantorList = () => {
             <th>Nazwa Kantoru</th>
             <th>Ulica</th>
             <th>Miasto</th>
-            {getCurrencyFields(kantors).map((currency) => (
+            {currencyFields.map((currency) => (
               <th key={currency} className={styles.currency}>
                 <div className={styles.currencyWrapper}>
                   <div className={styles.currencyName}>
@@ -120,7 +113,7 @@ export const KantorList = () => {
               <td>{kantor.company_name}</td>
               <td>{kantor.street}</td>
               <td>{kantor.city}</td>
-              {getCurrencyFields(kantors).map((currency) => (
+              {currencyFields.map((currency) => (
                 <td key={currency}>
                   {`${kantor[`${currency}_buy`]} / ${
                     kantor[`${currency}_sell`]
