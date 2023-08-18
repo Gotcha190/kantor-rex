@@ -3,6 +3,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { KantorData } from "@shared/interfaces";
 import styles from "./kantorList.module.scss";
+import CurrencyButton from "./currencyButton";
 
 export const KantorList = () => {
   const [kantors, setKantors] = useState<KantorData[]>([]);
@@ -21,45 +22,15 @@ export const KantorList = () => {
     fetchData();
   }, []);
 
-  const handleSortByField = (field: keyof KantorData) => {
-    const sortedKantors = [...kantors].sort((a, b) => {
-      const valueA =
-        typeof a[field] === "number"
-          ? (a[field] as number | null)
-          : parseFloat(a[field] as string) || null;
-      const valueB =
-        typeof b[field] === "number"
-          ? (b[field] as number | null)
-          : parseFloat(b[field] as string) || null;
-
-      if (valueA === null && valueB === null) return 0;
-      if (valueA === null) return 1;
-      if (valueB === null) return -1;
-
-      if (sortOrder === "ASC") {
-        return valueA - valueB;
-      } else {
-        return valueB - valueA;
-      }
-    });
-
-    setSortOrder(sortOrder === "ASC" ? "DESC" : "ASC");
-    setKantors(sortedKantors);
-  };
-
   if (kantors.length === 0) {
     return <div>Loading...</div>;
   }
 
-  const currencyFields: string[] = [];
-  Object.keys(kantors[0]).forEach((key) => {
-    if (key.endsWith("_buy")) {
-      const currency = key.replace("_buy", "");
-      if (!currencyFields.includes(currency)) {
-        currencyFields.push(currency);
-      }
-    }
-  });
+  const currencyFields = [...new Set(
+    kantors.flatMap(kantor => Object.keys(kantor))
+      .filter(key => key.endsWith("_buy"))
+      .map(key => key.replace("_buy", ""))
+  )];
 
   const goRouteId = (kantor: KantorData) => {
     const nameId = kantor.company_name + "-" + kantor.id;
@@ -75,30 +46,14 @@ export const KantorList = () => {
             <th>Ulica</th>
             <th>Miasto</th>
             {currencyFields.map((currency) => (
-              <th key={currency} className={styles.currency}>
-                <div className={styles.currencyWrapper}>
-                  <div className={styles.currencyName}>
-                    {currency.toUpperCase()}
-                  </div>
-                  <div className={styles.currencyButtons}>
-                    <button
-                      onClick={() =>
-                        handleSortByField(`${currency}_buy` as keyof KantorData)
-                      }
-                    >
-                      kupno
-                    </button>
-                    <button
-                      onClick={() =>
-                        handleSortByField(
-                          `${currency}_sell` as keyof KantorData
-                        )
-                      }
-                    >
-                      sprzedaż
-                    </button>
-                  </div>
-                </div>
+              <th key={currency}>
+                <CurrencyButton
+                  currency={currency}
+                  sortOrder={sortOrder}
+                  setSortOrder={setSortOrder}
+                  kantors={kantors}
+                  setKantors={setKantors}
+                />
               </th>
             ))}
           </tr>

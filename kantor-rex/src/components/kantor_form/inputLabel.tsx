@@ -63,7 +63,6 @@ const InputLabel: React.FC<InputLabelProps> = ({
   };
 
   const handleInvalid = (event: React.FormEvent<HTMLInputElement>) => {
-    // Prevent the default validation message for the number input
     event.preventDefault();
   };
 

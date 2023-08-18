@@ -16,7 +16,6 @@ function  Map({ selectedMarker }: { selectedMarker?: KantorData }) {
   const [markers, setMarkers] = useState<KantorData[]>([]);
 
   useEffect(() => {
-    // Jeśli selectedMarker nie istnieje, pobierz dane z bazy danych
     if (!selectedMarker) {
       async function fetchData() {
         try {
@@ -30,7 +29,6 @@ function  Map({ selectedMarker }: { selectedMarker?: KantorData }) {
     }
   }, [selectedMarker]);
 
-  // Ukrycie punktów zainteresowania (POI)
   const mapOptions = {
     styles: [
       {
@@ -40,16 +38,7 @@ function  Map({ selectedMarker }: { selectedMarker?: KantorData }) {
       },
     ],
   };
-
-  const onLoad = (map: any) => {
-    markers.forEach((marker) => {
-      new window.google.maps.Marker({
-        position: { lat: marker.lat, lng: marker.lng },
-        map: map,
-        title: marker.company_name,
-      });
-    });
-  };
+  
   if (!isLoaded) return <div>Loading...</div>;
 
   return (
@@ -60,7 +49,6 @@ function  Map({ selectedMarker }: { selectedMarker?: KantorData }) {
           center={center}
           mapContainerClassName={styles.map_container}
           options={mapOptions}
-          onLoad={onLoad}
         >
           {selectedMarker && (
             <Marker
@@ -68,8 +56,12 @@ function  Map({ selectedMarker }: { selectedMarker?: KantorData }) {
               title={selectedMarker.company_name}
             />
           )}
-          {markers.map((marker, key) => (
-            <Marker key={key} position={{ lat: marker.lat, lng: marker.lng }} />
+          {markers.map((marker) => (
+            <Marker
+              key={marker.id}
+              position={{ lat: marker.lat, lng: marker.lng }}
+              title={marker.company_name}
+            />
           ))}
         </GoogleMap>
       </div>

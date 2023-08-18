@@ -1,28 +1,25 @@
 @import "../../global_variables";
 
-$label_margin: 10px;
+$label_top: 10px;
 $button_margin: 20px;
 $input_padding: 10px 15px;
 $input_border_radius: 5px;
 $input_border: 1px solid $secondary-color;
 $input_width: 70%;
 $max-width: 1000px;
-$min-width: 700px;
-$button_background_color: $accent-color;
-$button_text_color: $secondary-color;
-$label_color: $secondary-color;
 $button_padding: 10px 20px;
 $button_border: none;
 $button_border_radius: 5px;
 $button_cursor: pointer;
 
 .form_container {
+  font-size: calc(2px + 2vmin);
   display: flex;
   justify-content: center;
   flex-direction: column;
   margin: 0 auto;
   max-width: $max-width;
-  min-width: $min-width;
+  margin-top: $label_top;
   .form_field_wrapper {
     width: 100%;
     display: flex;
@@ -34,8 +31,7 @@ $button_cursor: pointer;
       flex-direction: column;
       align-items: center;
       .form_label {
-        color: $label_color;
-        margin-top: $label_margin;
+        color: $secondary-color;
       }
       .form_input {
         background-color: $secondary-color;
@@ -53,15 +49,15 @@ $button_cursor: pointer;
         margin: 0;
       }
       .form_button {
-        background-color: $button_background_color;
-        color: $button_text_color;
+        background-color: $accent-color;
+        color: $secondary-color;
         padding: $button_padding;
         border: $button_border;
         border-radius: $button_border_radius;
         cursor: $button_cursor;
         width: 100%;
         box-sizing: border-box;
-        margin-top: $button_margin + $label_margin;
+        margin-top: $button_margin;
       }
     }
     .form_prices {
@@ -70,8 +66,8 @@ $button_cursor: pointer;
       flex-direction: column;
       align-items: center;
       .divider {
-        color: $label_color;
-        margin-top: $label_margin;
+        color: $secondary-color;
+        margin-top: $label_top;
         font-size: larger;
       }
     }
@@ -81,21 +77,21 @@ $button_cursor: pointer;
 .currencyContainer {
   display: flex;
   flex-wrap: wrap;
-  gap: 20px; /* Add the desired gap between columns */
-  justify-content: center; /* Center the columns horizontally */
+  gap: 20px;
+  justify-content: center;
   .currency {
-    width: 40%; /* This will create the two-column layout */
+    width: 40%;
     display: flex;
     flex-direction: column;
-    align-items: center; /* Center the elements inside the column */
+    align-items: center;
     .currency_label {
       color: $secondary-color;
-      margin-top: $label_margin;
+      margin-top: $label_top;
       display: flex;
-      justify-content: center; /* Center the label text horizontally */
+      justify-content: center;
     }
     .form_input {
-      text-align: center; /* Center the input text */
+      text-align: center;
     }
   }
 }
