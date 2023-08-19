@@ -11,7 +11,9 @@
 
 # production
 /build
-
+/dist
+/server/dist
+/KantorRex/server/dist
 # misc
 .DS_Store
 .env

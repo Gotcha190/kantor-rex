@@ -46,7 +46,7 @@ export interface InputLabelProps {
 export interface CurrencyButtonProps {
   currency: string;
   sortOrder: "ASC" | "DESC";
-  setSortOrder: React.Dispatch<React.SetStateAction<"ASC" | "DESC">>;
+  setSortOrder: (order: "ASC" | "DESC") => void;
   kantors: KantorData[];
-  setKantors: React.Dispatch<React.SetStateAction<KantorData[]>>;
+  setKantors: (data: KantorData[]) => void;
 }
